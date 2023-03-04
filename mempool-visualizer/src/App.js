@@ -9,6 +9,7 @@ const alchemy = new Alchemy({
 function App() {
   const [pendingTxList, setPendingTxList] = useState([]);
   const [minedTxList, setMinedTxList] = useState([]);
+  const [latestBlock, setLatestBlock] = useState('');
   useEffect(() => {
     console.log("listening");
     alchemy.ws.on({
@@ -16,8 +17,7 @@ function App() {
       toAddress: '0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B',
       fromAddress: '0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B',
       hashesOnly: false,
-    }
-      ,
+    },
       (tx) => {
       console.log(tx);
       setPendingTxList(prev => [...prev, tx.hash]);
@@ -30,12 +30,18 @@ function App() {
         {to: '0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B'}
       ],
       hashesOnly: false,
-    }
-      ,
-      (tx) => {
-      console.log(tx);
-      setMinedTxList(prev => [...prev, tx.transaction.hash]);
-      })
+    },
+    (tx) => {
+    console.log(tx);
+    setMinedTxList(prev => [...prev, tx.transaction.hash]);
+    });
+
+    alchemy.ws.on(
+      "block",
+      (block) => {
+      console.log(block);
+      setLatestBlock(block => block);
+      });
 
       return () => {
         console.log("Stopped listening");
@@ -52,6 +58,7 @@ function App() {
     <div className="App">
       <h1>Watching Uniswap at: {'0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B'}</h1>
       <button onClick={stopTx}>Ermagerd Stahp</button>
+      <h1>Latest Block: {latestBlock}</h1>
       <div className='transactions-wrapper'>
         <div className='pending'>
           <h1>Pending Transactions</h1>
