@@ -1,0 +1,17 @@
+* {
+  background-color: aqua;
+}
+
+.App {
+  text-align: center;
+}
+
+.transactions-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.transactions-wrapper > * {
+  flex-basis: 1;
+}
