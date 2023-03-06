@@ -1,14 +1,17 @@
 import './App.css';
+import React from 'react';
 import { Alchemy, AlchemySubscription } from "alchemy-sdk";
 import { useEffect, useState } from 'react';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 const alchemy = new Alchemy({
-  apiKey: 'sp8CRkb8K-I8By11GTiCMuuoteqGNfNY'
+  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY
 });
 
 function App() {
-  const [pendingTxList, setPendingTxList] = useState([]);
-  const [minedTxList, setMinedTxList] = useState([]);
+  const [pendingTxList, setPendingTxList] = useState<any[]>([]);
+  const [minedTxList, setMinedTxList] = useState<any[]>([]);
   const [latestBlock, setLatestBlock] = useState('');
   useEffect(() => {
     console.log("listening");
@@ -40,10 +43,10 @@ function App() {
       "block",
       (block) => {
       console.log(block);
-      setLatestBlock(block => block);
+      setLatestBlock(`${block}`);
       });
 
-      return () => {
+    return () => {
         console.log("Stopped listening");
         stopTx();
       }
