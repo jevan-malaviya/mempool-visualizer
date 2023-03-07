@@ -24,3 +24,32 @@ h1 {
 .transactions-wrapper > * {
   flex-basis: 1;
 }
+
+.pending-container {
+  width: 50%;
+  height: 88vh;
+  border: dashed red;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.right-side-container {
+  width: 50%;
+  border: dashed red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.transaction-data-container {
+  border: dashed aqua;
+  min-height: 80%;
+}
+
+.spaceship-container {
+  border: dashed green;
+
+  align-self: flex-start;
+}

@@ -1,5 +1,6 @@
 import * as React from "react"
-import { SVGProps } from "react"
+import { SVGProps } from "react";
+
 
 const StarSVG = (props: SVGProps<SVGSVGElement>) => (
   <svg
