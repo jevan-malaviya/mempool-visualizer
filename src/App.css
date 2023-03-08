@@ -49,8 +49,7 @@ h1 {
 .tx-query {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding-top: 3em;
   background-color: transparent;
   color: rgb(255, 255, 255);
   flex-grow: 1;
@@ -76,6 +75,6 @@ span {
 
 .spaceship-container {
   align-self: flex-start;
-  padding-bottom: 2em;
+  padding-bottom: 4em;
   flex-grow: 2;
 }
