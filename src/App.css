@@ -1,5 +1,5 @@
 .App {
-  color: antiquewhite;
+  color: rgb(236, 213, 183);
   text-align: center;
   width: 100vw;
   height: 100vh;
@@ -28,7 +28,6 @@ h1 {
 .pending-container {
   width: 50%;
   height: 88vh;
-  border: dashed red;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -37,19 +36,46 @@ h1 {
 
 .right-side-container {
   width: 50%;
-  border: dashed red;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .transaction-data-container {
-  border: dashed aqua;
   min-height: 80%;
+  display: flex;
+}
+
+.tx-query {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+  flex-grow: 1;
+}
+
+.tx-query > * {
+  display: block;
+  align-self: center;
+
+}
+
+.button {
+  margin-right: 1em;
+  padding: 5px 10px 5px 10px;
+  align-self: flex-end;
+  font-weight: bolder;
+  border: solid 2px antiquewhite;
+}
+
+span {
+  font-weight: bolder;
 }
 
 .spaceship-container {
-  border: dashed green;
-
   align-self: flex-start;
+  padding-bottom: 2em;
+  flex-grow: 2;
 }

@@ -1,10 +1,10 @@
 import './App.css';
 import { Alchemy, AlchemySubscription } from "alchemy-sdk";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import StarSVG from './StarSVG';
 import BlockSpaceshipSVG from './BlockSpaceshipSVG';
-import { motion, AnimatePresence } from 'framer-motion';
-import { exit } from 'process';
+import { motion, AnimatePresence, easeIn, easeOut } from 'framer-motion';
+
 
 
 const alchemy = new Alchemy({
@@ -12,8 +12,7 @@ const alchemy = new Alchemy({
 });
 
 function App() {
-  const pendingContainer = useRef<HTMLDivElement>(null);
-  const spaceship = useRef<HTMLDivElement>(null);
+  const [txQuery, setTxQuery] = useState<any[]>([])
   const [pendingTxList, setPendingTxList] = useState<any[]>([]);
   const [latestBlock, setLatestBlock] = useState<string[]>(['']);
 
@@ -33,7 +32,7 @@ function App() {
     },
       (tx) => {
       console.log(`To Uniswap: ${tx.hash}`);
-      setPendingTxList(prev => [...prev, tx.hash]);
+      setPendingTxList(prev => [...prev, tx]);
       });
 
     alchemy.ws.on({
@@ -48,7 +47,7 @@ function App() {
       console.log(`Mined ${tx.transaction.hash}`);
       setPendingTxList(prev =>
         prev.filter(
-          entry => entry !== tx.transaction.hash))
+          entry => entry.hash !== tx.transaction.hash))
     });
 
     return () => {
@@ -61,6 +60,10 @@ function App() {
       console.log(`Pending Tx List: ${pendingTxList}`);
     }, [pendingTxList]);
 
+    useEffect(() => {
+      console.log(txQuery);
+    }, [txQuery]);
+
     function stopTx() {
       alchemy.ws.removeAllListeners();
       console.log("Stopped listening");
@@ -72,7 +75,7 @@ function App() {
       <button onClick={stopTx}>Ermagerd Stahp</button>
       <h1>Latest Block: {latestBlock}</h1>
       <div className='transactions-wrapper'>
-        <div className='pending-container' ref={pendingContainer}>
+        <div className='pending-container'>
           <AnimatePresence>
           {
             pendingTxList.map((tx) => {
@@ -80,8 +83,10 @@ function App() {
                 <motion.div
                   className='star-container'
                   layout
-                  key={tx}
-
+                  key={tx.hash}
+                  onClick={() => {
+                    setTxQuery([tx])
+                  }}
                   style={{
                     height: 65,
                     width: 65,
@@ -125,7 +130,30 @@ function App() {
         </div>
         <div className='right-side-container'>
           <div className='transaction-data-container'>
-
+            { (txQuery.length === 1) &&
+              <motion.div
+                className='tx-query'
+                initial={{x: 1000}}
+                animate={{x: 0}}
+                transition={{ease: easeOut}}
+                exit={{x: 1000}}
+              >
+                <div className='button'
+                  onClick={() => setTxQuery([])}
+                >X</div>
+                <p><span>Nonce:</span> {txQuery[0].nonce}</p>
+                <p><span>Tx Hash:</span> {txQuery[0].hash}</p>
+                <p><span>From:</span> {txQuery[0].from}</p>
+                <p><span>Gas:</span> {txQuery[0].gas}</p>
+                <p><span>Gas Price:</span> {txQuery[0].gasPrice}</p>
+                <p><span>Max Gas Fee:</span> {txQuery[0].maxFeePerGas}</p>
+                <p><span>r:</span> {txQuery[0].r}</p>
+                <p><span>s:</span> {txQuery[0].s}</p>
+                <p><span>To:</span> {txQuery[0].to}</p>
+                <p><span>v:</span> {txQuery[0].v}</p>
+                <p><span>Value:</span> {txQuery[0].value}</p>
+            </motion.div>
+            }
           </div>
           <AnimatePresence>
             {
@@ -134,22 +162,23 @@ function App() {
                 <motion.div
                   key={block}
                   className='spaceship-container'
-
+                  layout
                   initial={{
                     y: 100,
                     opacity: 0,
-
+                    visibility: 'hidden'
                   }}
                   animate={{
                     y: 0,
                     opacity: 1,
-
+                    visibility: 'visible'
                   }}
                   exit={{
-                    x: 500
+                    x: 1000
                   }}
                   transition={{
-                    delay: 1.5
+                    delay: 1,
+                    ease: easeIn
                   }}
                 >
                   <BlockSpaceshipSVG />
