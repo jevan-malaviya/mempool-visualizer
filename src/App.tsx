@@ -72,7 +72,7 @@ function App() {
   return (
     <div className="App">
       <h1>Watching Uniswap at: {'0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B'}</h1>
-      <button onClick={stopTx}>Ermagerd Stahp</button>
+      <button onClick={stopTx}>Ahhhh Stahp</button>
       <h1>Latest Block: {latestBlock}</h1>
       <div className='transactions-wrapper'>
         <div className='pending-container'>
