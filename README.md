@@ -4,11 +4,15 @@ Watch a small corner of the ethereum blockchain being built in real time. Reads 
 
 ## Getting Started
 
-In the project directory, you can run:
+In the project directory, you can run to install dependencies:
 
 ### `npm i`
 
-Install dependencies and then run:
+A free Alchemy API key can be generated through signup here: https://www.alchemy.com/ethereum
+which can then be included in a .env file in the root directory assigned to a variable called
+REACT_APP_ALCHEMY_API_KEY.
+
+You can run the app with:
 
 ### `npm start`
 
