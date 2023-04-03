@@ -17,11 +17,9 @@ function App() {
   const [latestBlock, setLatestBlock] = useState<string[]>(['']);
 
   useEffect(() => {
-    console.log("listening");
     alchemy.ws.on(
       "block",
       (block) => {
-      console.log(block);
       setLatestBlock([`${block}`]);
       });
 
@@ -31,7 +29,6 @@ function App() {
       hashesOnly: false,
     },
       (tx) => {
-      console.log(`To Uniswap: ${tx.hash}`);
       setPendingTxList(prev => [...prev, tx]);
       });
 
@@ -44,29 +41,24 @@ function App() {
       hashesOnly: false,
     },
     (tx) => {
-      console.log(`Mined ${tx.transaction.hash}`);
       setPendingTxList(prev =>
         prev.filter(
           entry => entry.hash !== tx.transaction.hash))
     });
 
     return () => {
-        console.log("Stopped listening");
         stopTx();
       }
     },[]);
 
     useEffect(() => {
-      console.log(`Pending Tx List: ${pendingTxList}`);
     }, [pendingTxList]);
 
     useEffect(() => {
-      console.log(txQuery);
     }, [txQuery]);
 
     function stopTx() {
       alchemy.ws.removeAllListeners();
-      console.log("Stopped listening");
   }
 
   return (
